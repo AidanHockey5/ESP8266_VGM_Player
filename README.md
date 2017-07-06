@@ -37,3 +37,6 @@ to automatically create an array-friendly format.
 Change the array length int to "music_length" and the array data type to "uint8 ICACHE_RODATA_ATTR music_data[]"
 
 Right now, there seems to be minor timing issues and there is no support for dynamic clock speeds. 
+
+---------------------------------------------------------------------------------------------------------------------
+I'm using an external PIC16F690 microcontroller to set the output clock of the LTC6903. I've included the CCS C code and the compiled HEX should you want to use it.
