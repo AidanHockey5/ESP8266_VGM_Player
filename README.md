@@ -39,4 +39,4 @@ Change the array length int to "music_length" and the array data type to "uint8 
 Right now, there seems to be minor timing issues and there is no support for dynamic clock speeds. 
 
 ---------------------------------------------------------------------------------------------------------------------
-I'm using an external PIC16F690 microcontroller to set the output clock of the LTC6903. I've included the CCS C code and the compiled HEX should you want to use it.
+I'm using an external PIC16F690 microcontroller to set the output clock of the LTC6903. I've included the CCS C code and the compiled HEX should you want to use it. You could easily setup the LTC6903 using SPI from the ESP8266, but since it's a bit limited for pins and I already had a chip programmed for this specific use, I went that route.
