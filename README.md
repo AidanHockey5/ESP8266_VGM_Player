@@ -1,4 +1,4 @@
-# ESP8266_VGM_Player
+# ESP8266 VGM Player
 A basic shift-register-based VGM player for the SN76489 PSG chip.
 
 This reads VGM data from uint8 arrays stored in the ESP8266 flash memory and plays them back on a SN76489 PSG sound chip via a SN74HC595 shift register.
@@ -10,19 +10,22 @@ This project is still early in it's lifespan, so a proper pinout and documentati
 
 As of right now, the pinout is:
 
-------ESP to SHIFT REGISTER------
-ESP D0 <-> latch (12)
-ESP D1 <-> SRclock (11)
-ESP D2 <-> SERdata (14)
-(SKIP D3)
-ESP D4 <-> SRCLR (10)
+| ESP    | SHIFT REGISTER |
+| --- | --- |
+| ESP D0 | latch (12)     |
+| ESP D1 | SRclock (11)   |
+| ESP D2 | SERdata (14)   |
+| (SKIP D3)  |            | 
+| ESP D4 | SRCLR (10)     |
 
-------ESP to SN76489 PSG------
-ESP D3 <-> WE (5)
+| ESP | SN76489 PSG |
+| --- | --- |
+| ESP D3 | WE (5) |
 
-------SHIFT REGISTER to SN76489 PSG & clock------
-PSG Clock <-> Clock out LTC6903 (external part, you must supply a 3.58 MHz clock signal)
-PSG D0-D7 <-> Shift Register QA-QH
+| SHIFT REGISTER | SN76489 PSG & clock |
+| --- | --- |
+| PSG Clock | Clock out LTC6903 (external part, you must supply a 3.58 MHz clock signal) |
+| PSG D0-D7 | Shift Register QA-QH |
 
 SN-OUT can be directly hooked up to low-powered speakers without amplification. This chip is pretty loud by itself. I reccomend a 10 uF cap connecting SN-OUT to GROUND.
 
