@@ -10,6 +10,10 @@ const int clockPin = D1;
 const int dataPin = D2;
 const int clearShift = D4;
 
+float singleSampleWait = 0;
+const float WAIT60TH = 1000 / (44100/735);
+const float WAIT50TH = 1000 / (44100/882);
+
 void setup() 
 {
   Serial.begin(115200);
@@ -58,7 +62,8 @@ uint8 ICACHE_FLASH_ATTR read_rom_uint8(const uint8* addr)
 }
 
 unsigned long parseLocation = 64;
-float sampleWait = 1;
+uint32_t lastWaitData = 0;
+float cachedWaitTime = 0;
 void ICACHE_FLASH_ATTR loop(void) 
 {
   switch(read_rom_uint8(&music_data[parseLocation]))
@@ -67,9 +72,8 @@ void ICACHE_FLASH_ATTR loop(void)
     parseLocation++;
     SendSNByte(read_rom_uint8(&music_data[parseLocation]));
     break;
-    case 0x61: //There seems to be issues with how these delays are timed. Sample rate doesn't match
+    case 0x61: 
     {
-    Serial.print("Hit 0x61. Wait: ");
     uint32_t wait = 0;
     parseLocation++;
     for ( int i = 0; i < 2; i++ ) 
@@ -77,20 +81,19 @@ void ICACHE_FLASH_ATTR loop(void)
       wait += ( uint32_t( read_rom_uint8(&music_data[parseLocation]) ) << ( 8 * i ));
       parseLocation++;
     }
-    Serial.println(wait);
-//    parseLocation++;
-//    wait << read_rom_uint8(&music_data[parseLocation]);
-//    parseLocation++;
-//    wait << read_rom_uint8(&music_data[parseLocation]);
-    while(wait-- > 0) delayMicroseconds(23);
-    //for(int i=0; i < wait; i++) delay(0.023);
+    if(lastWaitData != wait) //Avoid doing lots of unnecessary division.
+    {
+      lastWaitData = wait;
+      cachedWaitTime = 1000/(44100/wait);
+    }
+    delay(cachedWaitTime);
     break;
     }
     case 0x62:
-    delay(16.67); //Actual time is 16.67 (1/60 of a second). 0.75 is just to speed songs up a little;
+    delay(WAIT60TH); //Actual time is 16.67ms (1/60 of a second)
     break;
     case 0x63:
-    delay(20);
+    delay(WAIT50TH); //Actual time is 20ms (1/50 of a second)
     break;
     case 0x70:
     case 0x71:
@@ -107,12 +110,10 @@ void ICACHE_FLASH_ATTR loop(void)
     case 0x7C:
     case 0x7D:
     case 0x7E:
-    case 0x7F: //There seems to be issues with how these delays are timed. Sample rate doesn't match
+    case 0x7F: 
     {
-      //parseLocation++;
-      Serial.print("Hit "); Serial.println(read_rom_uint8(&music_data[parseLocation]));
-      uint32_t s = read_rom_uint8(&music_data[parseLocation]) & 0x0F;
-      while ( s-- > 0 ) delayMicroseconds(23);
+      uint32_t wait = read_rom_uint8(&music_data[parseLocation]) & 0x0F;
+      delay(1000/(44100/wait));
     break;
     }
     case 0x66:
