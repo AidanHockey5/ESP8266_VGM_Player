@@ -38,7 +38,7 @@ Prepackaged VGM music in array format can be found in music.h. Just uncomment th
 
 xxd -i YOURTRACK.VGM OUTPUTFILE.txt
 
-to automatically create an array-friendly format. 
+command to automatically create an array-friendly format. 
 Change the array length int to "music_length" and the array data type to "uint8 ICACHE_RODATA_ATTR music_data[]"
 
 Right now, there seems to be minor timing issues and there is no support for dynamic clock speeds. 
