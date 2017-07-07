@@ -24,10 +24,13 @@ As of right now, the pinout is:
 | --- | --- |
 | ESP D3 | WE (5) |
 
-| SHIFT REGISTER | SN76489 PSG & clock |
+| SN76489 PSG | SHIFT REGISTER & clock |
 | --- | --- |
 | PSG Clock | Clock out LTC6903 (external part, you must supply a 3.58 MHz clock signal) |
 | PSG D0-D7 | Shift Register QA-QH |
+| PSG OE | GND |
+
+Shift register OE must be grounded too.
 
 SN-OUT can be directly hooked up to low-powered speakers without amplification. This chip is pretty loud by itself. I reccomend a 10 uF cap connecting SN-OUT to GROUND.
 
