@@ -1,6 +1,6 @@
 //Hey, this one actually works!
 #include "music.h"
-#define PROGMEM  ICACHE_RODATA_ATTR
+
 //SN
 const int WE = D3;
 
@@ -10,6 +10,7 @@ const int clockPin = D1;
 const int dataPin = D2;
 const int clearShift = D4;
 
+//Timing Variables
 float singleSampleWait = 0;
 const float WAIT60TH = 1000 / (44100/735);
 const float WAIT50TH = 1000 / (44100/882);
@@ -42,7 +43,7 @@ void SilenceAllChannels()
   SendSNByte(0xff);
 }
 
-void SendSNByte(byte b)
+void SendSNByte(byte b) //Send 1-byte of data to PSG
 {
   digitalWrite(WE, HIGH);
   digitalWrite(latchPin, LOW);
@@ -61,12 +62,12 @@ uint8 ICACHE_FLASH_ATTR read_rom_uint8(const uint8* addr)
     return ((uint8*)&bytes)[(uint32)addr & 3];
 }
 
-unsigned long parseLocation = 64;
+unsigned long parseLocation = 64; //Where we're currently looking in the music_data array. (64 = 0x40 = start of VGM music data)
 uint32_t lastWaitData = 0;
 float cachedWaitTime = 0;
 void ICACHE_FLASH_ATTR loop(void) 
 {
-  switch(read_rom_uint8(&music_data[parseLocation]))
+  switch(read_rom_uint8(&music_data[parseLocation])) //Use this switch statement to parse VGM commands
   {
     case 0x50:
     parseLocation++;

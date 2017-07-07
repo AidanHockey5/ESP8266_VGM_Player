@@ -1,4 +1,12 @@
+//Uncomment the song you would like to play. Only uncomment one song at a time. 
+//Custom songs can be made with the linux console command:
+// xxd -i INPUTFILE.VGM OUTPUTFILE.TXT
+//Change the length variable at the end to "music_length"
+//Change the array variable at the top to uint8 ICACHE_RODATA_ATTR music_data[]
+//Make sure to fully uncompress vgm files with 7Zip. VGZ files especially.
+
 //MISSION76496 - hally
+
 uint8 ICACHE_RODATA_ATTR music_data[] = {
   0x56, 0x67, 0x6d, 0x20, 0x7a, 0x75, 0x01, 0x00, 0x01, 0x01, 0x00, 0x00,
   0x99, 0x9e, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0x74, 0x01, 0x00,
