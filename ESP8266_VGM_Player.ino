@@ -50,7 +50,7 @@ void SendSNByte(byte b) //Send 1-byte of data to PSG
   shiftOut(dataPin, clockPin, MSBFIRST, b);   
   digitalWrite(latchPin, HIGH);
   digitalWrite(WE, LOW);
-  delay(1);
+  delayMicroseconds(5);
   digitalWrite(WE, HIGH);
 }
 
